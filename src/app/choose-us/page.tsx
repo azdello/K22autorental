@@ -11,18 +11,18 @@ export const metadata: Metadata = {
 };
 
 const reasons = [
-  { title: "Good quality vehicles", desc: "We keep our vehicles clean, reliable, and ready to drive." },
-  { title: "Unlimited kms", desc: "Drive freely without worrying about mileage limits." },
-  { title: "Friendly staff", desc: "Clear communication and support before and during your rental." },
-  { title: "Convenient location", desc: "Easy pickup process and helpful guidance for a smooth start." },
-  { title: "Customer focused", desc: "We prioritise satisfaction and a stress-free booking experience." },
-  { title: "Fast confirmations", desc: "Call or enquire with your dates and vehicle type — we confirm fast." },
+  { title: "Good quality vehicles", desc: "We keep our vehicles clean and mechanically sound, so they're genuinely ready to drive when you arrive." },
+  { title: "Unlimited kms", desc: "Drive as far as the trip or the job takes you, without watching a mileage limit." },
+  { title: "Friendly staff", desc: "Clear, straightforward communication before, during, and after your rental — no runaround." },
+  { title: "Convenient location", desc: "An easy pickup process out of Cairnlea, with guidance if it's your first time hiring with us." },
+  { title: "Customer focused", desc: "We'd rather solve something on the call than have you chasing us about it later." },
+  { title: "Fast confirmations", desc: "Call or enquire with your dates and vehicle type, and we confirm availability there and then." },
 ];
 
 const steps = [
-  { title: "Reach out", desc: "Call us or send an enquiry with your dates, vehicle type, and contact details." },
-  { title: "Confirm", desc: "We confirm availability and next steps." },
-  { title: "Pick up", desc: "We provide pickup details so you can drive away." },
+  { title: "Reach out", desc: "Call us or send an enquiry with your dates, vehicle type, and contact details — whichever's easier." },
+  { title: "Confirm", desc: "We confirm availability and next steps on the same call, not with a delayed follow-up." },
+  { title: "Pick up", desc: "We provide pickup details so you can collect the vehicle and drive away." },
 ];
 
 export default function ChooseUsPage() {

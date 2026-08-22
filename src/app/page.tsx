@@ -12,35 +12,64 @@ export const metadata: Metadata = {
 };
 
 const fleetPreview = [
-  { code: "HB·01", name: "Hatchback", desc: "Daily driving, commuting, errands.", status: "Call to confirm" },
-  { code: "SD·02", name: "Sedan", desc: "Longer trips, extra boot space.", status: "Call to confirm" },
-  { code: "TX·03", name: "Taxi-ready", desc: "Sedan & SUV, taxi requirements.", status: "Call to confirm" },
-  { code: "SV·04", name: "SUV / 7-seat", desc: "Families, long-term hire.", status: "Limited spots" },
+  {
+    code: "HB·01",
+    name: "Hatchback",
+    desc: "Compact and easy to park, built for daily driving, commuting, and errands around town.",
+    status: "Call to confirm",
+  },
+  {
+    code: "SD·02",
+    name: "Sedan",
+    desc: "A smoother ride with extra boot space, better suited to longer trips or interstate runs.",
+    status: "Call to confirm",
+  },
+  {
+    code: "TX·03",
+    name: "Taxi-ready",
+    desc: "Sedan and SUV options already set up to meet taxi requirements, with guidance if you're new to it.",
+    status: "Call to confirm",
+  },
+  {
+    code: "SV·04",
+    name: "SUV / 7-seat",
+    desc: "Extra room for families or crews, and a solid pick for longer-term hire.",
+    status: "Limited spots",
+  },
 ];
 
 const reasons = [
   {
     title: "All-inclusive approach",
-    desc: "Straightforward hire options designed to keep you on the road with minimal hassle.",
+    desc: "Straightforward hire options with no confusing add-ons or hidden steps between you and the road.",
   },
   {
     title: "Flexible terms",
-    desc: "Short-term and long-term hire, depending on your needs and availability.",
+    desc: "Short-term and long-term hire, so a weekend rental and a multi-month arrangement both work the same simple way.",
   },
   {
     title: "Category match",
-    desc: "Personal use, delivery-ready, or taxi-ready — we match you to the right vehicle.",
+    desc: "Tell us whether it's personal use, delivery work, or taxi-ready, and we match you to the right vehicle for the job.",
   },
   {
     title: "Fast response",
-    desc: "Call with your dates and we confirm availability right away.",
+    desc: "Call with your dates and we confirm availability on the spot, rather than leaving you waiting on a callback.",
   },
 ];
 
 const steps = [
-  { title: "Call with your dates", desc: "Tell us the vehicle type and dates you need." },
-  { title: "We confirm availability", desc: "We confirm the best option and next steps on the call." },
-  { title: "Pickup in Cairnlea", desc: "Collect the vehicle and you're ready to go." },
+  {
+    title: "Call with your dates",
+    desc: "Tell us the vehicle type and dates you need, plus anything relevant like taxi use, so we can match you properly from the start.",
+  },
+  {
+    title: "We confirm availability",
+    desc: "We confirm the best option and next steps on the call itself, not with a delayed callback later.",
+  },
+  {
+    title: "Pickup in Cairnlea",
+    desc: "Collect the vehicle and you're ready to go, with no separate paperwork appointment beforehand.",
+  },
 ];
 
 export default function HomePage() {
@@ -93,8 +122,22 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ABOUT — short flowing intro, no lists */}
+      <Reveal as="section" className="mt-20 sm:mt-24">
+        <p className="lead max-w-2xl text-[15px] sm:text-base">
+          K22 Auto Rentals is a Victorian-based vehicle hire service built
+          for people who need a car without the runaround — a quick
+          personal trip, a delivery run, or a taxi-ready sedan for work.
+          Every booking starts with a single phone call: tell us your dates
+          and the vehicle type you&rsquo;re after, and we confirm what&rsquo;s
+          available before you hang up. Pickup is straightforward from our
+          Cairnlea location, with nothing complicated standing between you
+          and the road.
+        </p>
+      </Reveal>
+
       {/* STAT TRIO */}
-      <Reveal as="section" className="mt-28 sm:mt-36">
+      <Reveal as="section" className="mt-20 sm:mt-24">
         <div className="statRow sm:grid-cols-3">
           <div>
             <div className="statNum">Cairnlea</div>

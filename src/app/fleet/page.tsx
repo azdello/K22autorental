@@ -15,45 +15,45 @@ const fleet = [
     code: "DL·01",
     title: "Delivery-Ready",
     enquiryType: "Delivery-Ready Vehicles",
-    desc: "Reliable options suitable for delivery work, subject to availability.",
+    desc: "Reliable options suited to delivery work, kept in good condition and ready to go, subject to availability.",
     status: "Call to confirm",
   },
   {
     code: "PU·02",
     title: "Personal Use",
     enquiryType: "Personal Use Vehicles",
-    desc: "Daily drivers for commuting, errands, and personal travel.",
+    desc: "Comfortable daily drivers for commuting, errands, and personal travel, with nothing complicated attached.",
     status: "Call to confirm",
   },
   {
     code: "TS·03",
     title: "Taxi Sedan",
     enquiryType: "Taxi Sedans",
-    desc: "Taxi-ready sedans, subject to requirements and availability.",
+    desc: "Taxi-ready sedans set up to meet requirements, with guidance available if you're getting started.",
     status: "Call to confirm",
   },
   {
     code: "TV·04",
     title: "Taxi SUV",
     enquiryType: "Taxi SUVs",
-    desc: "Taxi-ready SUVs for extra space and comfort.",
+    desc: "Taxi-ready SUVs for extra space and comfort on longer shifts or larger fares.",
     status: "Limited spots",
   },
 ];
 
 const included = [
-  { title: "Good quality vehicles", desc: "Clean, reliable vehicles ready to drive." },
-  { title: "Unlimited kms", desc: "Drive without worrying about mileage." },
-  { title: "Friendly staff", desc: "Clear support and fast responses." },
-  { title: "Convenient location", desc: "Simple pickup process and helpful guidance." },
-  { title: "Customer focused", desc: "We prioritise satisfaction and smooth bookings." },
-  { title: "Easy booking", desc: "Sort dates and vehicle type by call or enquiry." },
+  { title: "Good quality vehicles", desc: "Clean, mechanically sound vehicles that are actually ready to drive when you pick them up." },
+  { title: "Unlimited kms", desc: "Drive as much as the job or the trip needs, without watching a mileage cap." },
+  { title: "Friendly staff", desc: "Straightforward answers over the phone, from the first call through to pickup." },
+  { title: "Convenient location", desc: "A simple pickup process out of Cairnlea, with clear guidance if it's your first time." },
+  { title: "Customer focused", desc: "We'd rather sort a problem on the call than leave you chasing us afterwards." },
+  { title: "Easy booking", desc: "Sort dates and vehicle type in one call or a short enquiry — that's the whole process." },
 ];
 
 const tips = [
-  { title: "Have dates ready", desc: "Sharing start/end dates helps us confirm faster." },
-  { title: "Mention the purpose", desc: "Delivery, personal use, or taxi — let us know." },
-  { title: "Taxi requirements", desc: "If taxi use, tell us early so we can guide requirements." },
+  { title: "Have dates ready", desc: "Sharing start and end dates upfront lets us confirm the right vehicle faster." },
+  { title: "Mention the purpose", desc: "Delivery, personal use, or taxi work — telling us early means fewer questions later." },
+  { title: "Taxi requirements", desc: "If it's for taxi use, flag it early so we can guide you through what's needed before pickup." },
 ];
 
 export default function FleetPage() {
