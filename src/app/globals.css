@@ -203,9 +203,9 @@ body {
   animation: dashDrift 26s linear infinite;
 }
 
-.heroRoute .glowDot {
-  animation: dotTravel 9s var(--ease) infinite;
-  offset-rotate: 0deg;
+.heroRoute .glowCar {
+  animation: carTravel 9s var(--ease) infinite;
+  color: var(--signal);
 }
 
 @keyframes dashDrift {
@@ -214,9 +214,8 @@ body {
   }
 }
 
-@keyframes dotTravel {
+@keyframes carTravel {
   0% {
-    offset-distance: 0%;
     opacity: 0;
   }
   8% {
@@ -226,14 +225,13 @@ body {
     opacity: 1;
   }
   100% {
-    offset-distance: 100%;
     opacity: 0;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .heroRoute .drawPath,
-  .heroRoute .glowDot {
+  .heroRoute .glowCar {
     animation: none;
   }
 }
@@ -333,6 +331,27 @@ body {
 
 .routeTimeline.is-in .routeBarFill {
   transform: scaleX(1);
+}
+
+.routeCar {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  color: var(--muted-2);
+  transform: translate(-50%, -50%);
+  transition: left 1600ms var(--ease), color 1600ms var(--ease);
+  z-index: 2;
+}
+
+.routeTimeline.is-in .routeCar {
+  left: 100%;
+  color: var(--signal);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .routeCar {
+    transition: none;
+  }
 }
 
 @media (min-width: 640px) {

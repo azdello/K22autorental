@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import Reveal from "./components/Reveal";
 import RouteTimeline from "./components/RouteTimeline";
+import CarGlyph from "./components/CarGlyph";
 
 export const metadata: Metadata = {
   title: "K22 Auto Rentals | Vehicle Rentals in Victoria",
@@ -55,13 +56,17 @@ export default function HomePage() {
               stroke="var(--hairline-strong)"
               strokeWidth="1.5"
             />
-            <circle className="glowDot" r="3.5" fill="var(--signal)">
+            <g className="glowCar">
               <animateMotion
                 dur="9s"
                 repeatCount="indefinite"
+                rotate="auto"
                 path="M40 460 C 220 460, 180 300, 340 280 S 560 140, 520 40"
               />
-            </circle>
+              <g transform="translate(-11,-7) scale(0.85)">
+                <CarGlyph />
+              </g>
+            </g>
           </svg>
         </div>
 

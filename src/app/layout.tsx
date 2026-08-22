@@ -191,23 +191,6 @@ export default function RootLayout({
                   Personal rentals, delivery-ready vehicles, and taxi-ready
                   sedans &amp; SUVs, dispatched out of Cairnlea, VIC.
                 </p>
-                <div className="mt-6 flex items-center gap-2 text-xs text-[var(--muted-2)]">
-                  <span>Design by</span>
-                  <Link
-                    href="https://azdello.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="Visit Azdello"
-                  >
-                    <Image
-                      src="/azdello-logo.png"
-                      alt="Azdello"
-                      width={110}
-                      height={30}
-                      className="h-6 w-auto opacity-70 hover:opacity-100 transition-opacity duration-300"
-                    />
-                  </Link>
-                </div>
               </div>
 
               <div className="sm:text-right">

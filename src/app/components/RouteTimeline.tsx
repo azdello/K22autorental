@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import CarGlyph from "./CarGlyph";
 
 type Step = {
   title: string;
@@ -35,6 +36,11 @@ export default function RouteTimeline({ steps }: { steps: Step[] }) {
     <div ref={ref} className={`routeTimeline mt-10 ${inView ? "is-in" : ""}`}>
       <div className="routeBar" aria-hidden="true">
         <div className="routeBarFill" />
+        <div className="routeCar">
+          <svg viewBox="0 0 24 14" width="26" height="15">
+            <CarGlyph />
+          </svg>
+        </div>
       </div>
       <div className="grid gap-0 sm:grid-cols-3 sm:gap-8">
         {steps.map((step, i) => (
