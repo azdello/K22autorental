@@ -198,6 +198,15 @@ body {
   opacity: 0.55;
 }
 
+@media (max-width: 639px) {
+  .heroRoute svg {
+    top: 4%;
+    right: -22%;
+    width: 460px;
+    opacity: 0.4;
+  }
+}
+
 .heroRoute .drawPath {
   stroke-dasharray: 6 14;
   animation: dashDrift 26s linear infinite;
@@ -366,11 +375,33 @@ body {
 }
 
 .routeStepLine {
+  position: relative;
   width: 1.5px;
   flex: 1;
   margin-top: 4px;
   background: var(--hairline-strong);
   min-height: 24px;
+}
+
+.routeCarMobile {
+  position: absolute;
+  left: 50%;
+  top: 0%;
+  transform: translate(-50%, -50%) rotate(90deg);
+  color: var(--muted-2);
+  transition: top 900ms var(--ease), color 900ms var(--ease);
+}
+
+.routeTimeline.is-in .routeCarMobile {
+  top: 100%;
+  color: var(--signal);
+  transition-delay: calc(var(--car-delay, 0) * 1ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .routeCarMobile {
+    transition: none;
+  }
 }
 
 .routeMark {

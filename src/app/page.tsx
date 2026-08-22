@@ -77,7 +77,7 @@ export default function HomePage() {
     <div>
       {/* HERO */}
       <section className="relative pt-6 pb-10 sm:pt-10">
-        <div className="heroRoute hidden sm:block" aria-hidden="true">
+        <div className="heroRoute" aria-hidden="true">
           <svg viewBox="0 0 700 500" fill="none">
             <path
               className="drawPath"

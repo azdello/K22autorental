@@ -149,29 +149,29 @@ export default function RootLayout({
 
           <nav
             aria-label="Primary mobile"
-            className="flex sm:hidden container gap-5 pb-3 -mt-1"
+            className="flex flex-wrap sm:hidden container gap-x-6 gap-y-1 pb-4 -mt-1"
           >
             <Link
               href="/"
-              className="text-[12px] font-medium text-[var(--muted)]"
+              className="text-sm font-semibold text-[var(--muted)] py-1"
             >
               Home
             </Link>
             <Link
               href="/fleet"
-              className="text-[12px] font-medium text-[var(--muted)]"
+              className="text-sm font-semibold text-[var(--muted)] py-1"
             >
               Fleet
             </Link>
             <Link
               href="/choose-us"
-              className="text-[12px] font-medium text-[var(--muted)]"
+              className="text-sm font-semibold text-[var(--muted)] py-1"
             >
               Choose Us
             </Link>
             <Link
               href="/enquiry"
-              className="text-[12px] font-medium text-[var(--muted)]"
+              className="text-sm font-semibold text-[var(--muted)] py-1"
             >
               Enquiry
             </Link>

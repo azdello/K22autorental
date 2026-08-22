@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import CarGlyph from "./CarGlyph";
 
 type Step = {
@@ -49,7 +49,17 @@ export default function RouteTimeline({ steps }: { steps: Step[] }) {
             <div className="flex flex-col items-center sm:hidden">
               <span className="routeMark shrink-0" />
               {i < steps.length - 1 ? (
-                <div className="routeStepLine" aria-hidden="true" />
+                <div
+                  className="routeStepLine"
+                  style={{ "--car-delay": i * 250 } as CSSProperties}
+                  aria-hidden="true"
+                >
+                  <span className="routeCarMobile">
+                    <svg viewBox="0 0 24 14" width="15" height="9">
+                      <CarGlyph />
+                    </svg>
+                  </span>
+                </div>
               ) : null}
             </div>
 
