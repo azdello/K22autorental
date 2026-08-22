@@ -52,6 +52,9 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
+  verification: {
+    google: "oPFxWbx7TUUwc75ypXrAq-M03nkSdVVLv9D-s2Ne_XM",
+  },
 };
 
 const businessJsonLd = {
