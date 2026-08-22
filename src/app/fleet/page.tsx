@@ -1,5 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import Reveal from "../components/Reveal";
+import RouteTimeline from "../components/RouteTimeline";
 
 export const metadata: Metadata = {
   title: "Fleet",
@@ -57,101 +59,110 @@ const tips = [
 export default function FleetPage() {
   return (
     <div>
-      <span className="eyebrow">Fleet manifest</span>
-      <h1 className="display mt-4 text-3xl sm:text-5xl">The board</h1>
-      <p className="lead mt-4 max-w-md">
-        Four categories. Pick what fits and call or send an enquiry with
-        your dates — we&rsquo;ll confirm availability fast.
-      </p>
+      <div className="max-w-2xl">
+        <span className="eyebrow">Fleet manifest</span>
+        <h1 className="display mt-6 text-4xl sm:text-6xl">The fleet</h1>
+        <p className="lead mt-6 max-w-md">
+          Four categories. Pick what fits and call or send an enquiry with
+          your dates — we&rsquo;ll confirm availability fast.
+        </p>
 
-      <div className="mt-8 flex flex-col sm:flex-row gap-3">
-        <a href="tel:0430277558" className="btnSignal">
-          Call 0430 277 558
-        </a>
-        <Link href="/choose-us" className="btnOutline">
-          Why choose us
-        </Link>
-      </div>
-
-      {/* Dispatch board — full */}
-      <div className="board mt-10">
-        <div className="boardHead">
-          <span>Code</span>
-          <span>Category</span>
-          <span className="text-right">Status</span>
-        </div>
-        {fleet.map((v) => (
-          <Link
-            key={v.code}
-            href={`/enquiry?type=${encodeURIComponent(v.enquiryType)}`}
-            className="boardRow"
-          >
-            <span className="boardCode">{v.code}</span>
-            <div>
-              <div className="boardName">{v.title}</div>
-              <div className="boardDesc">{v.desc}</div>
-            </div>
-            <span className="boardStatus justify-self-end">
-              <span className="dot" aria-hidden="true" />
-              {v.status}
-            </span>
+        <div className="mt-9 flex flex-col sm:flex-row gap-4">
+          <a href="tel:0430277558" className="btnSignal">
+            Call 0430 277 558
+          </a>
+          <Link href="/choose-us" className="btnOutline">
+            Why choose us
           </Link>
-        ))}
+        </div>
       </div>
-      <p className="mt-3 text-xs text-[var(--muted2)]">
-        Tap a category to start an enquiry, or call directly.
-      </p>
+
+      {/* Fleet list — full */}
+      <Reveal as="div" className="mt-16 sm:mt-20">
+        <div className="fleetList">
+          {fleet.map((v) => (
+            <Link
+              key={v.code}
+              href={`/enquiry?type=${encodeURIComponent(v.enquiryType)}`}
+              className="fleetRow"
+            >
+              <div className="fleetMain">
+                <span className="fleetCode">{v.code}</span>
+                <div className="fleetText">
+                  <div className="fleetName">{v.title}</div>
+                  <div className="fleetDesc">{v.desc}</div>
+                </div>
+              </div>
+              <div className="flex items-center gap-4">
+                <span className="fleetStatus">
+                  <span className="dot" aria-hidden="true" />
+                  {v.status}
+                </span>
+                <svg
+                  className="fleetArrow"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M4 10h11M10 5l5 5-5 5"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </div>
+            </Link>
+          ))}
+        </div>
+        <p className="mt-4 text-xs text-[var(--muted-2)]">
+          Tap a category to start an enquiry, or call directly.
+        </p>
+      </Reveal>
 
       {/* What's included */}
-      <section className="mt-14 sm:mt-16 grid gap-10 lg:grid-cols-[0.8fr_1.2fr]">
-        <div>
-          <span className="eyebrow">Included</span>
-          <h2 className="display mt-4 text-2xl sm:text-3xl">
-            What comes with every hire.
-          </h2>
-        </div>
-        <div>
-          {included.map((x) => (
-            <div key={x.title} className="benefitRow">
-              <span className="benefitMark" aria-hidden="true" />
-              <div>
-                <div className="benefitTitle">{x.title}</div>
-                <div className="benefitDesc">{x.desc}</div>
+      <Reveal as="section" className="mt-28 sm:mt-36">
+        <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr]">
+          <div>
+            <span className="eyebrow">Included</span>
+            <h2 className="display mt-5 text-3xl sm:text-4xl">
+              What comes with every hire.
+            </h2>
+          </div>
+          <div>
+            {included.map((x, i) => (
+              <div key={x.title} className="reasonRow">
+                <span className="reasonNum">{String(i + 1).padStart(2, "0")}</span>
+                <div>
+                  <div className="reasonTitle">{x.title}</div>
+                  <div className="reasonDesc">{x.desc}</div>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
-      </section>
+      </Reveal>
 
       {/* Booking tips */}
-      <section className="mt-14 sm:mt-16">
+      <Reveal as="section" className="mt-28 sm:mt-36">
         <span className="eyebrow">Booking tips</span>
-        <h2 className="display mt-4 text-2xl sm:text-3xl">
+        <h2 className="display mt-5 text-3xl sm:text-4xl">
           Make the enquiry count.
         </h2>
-        <div className="timeline mt-8 sm:grid-cols-3 sm:gap-8">
-          {tips.map((x, i) => (
-            <div key={x.title} className="timelineStep">
-              <span className="timelineMark">{i + 1}</span>
-              <div>
-                <div className="timelineTitle">{x.title}</div>
-                <div className="timelineDesc">{x.desc}</div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
+        <RouteTimeline steps={tips} />
+      </Reveal>
 
       {/* CTA */}
-      <section className="hairline mt-14 sm:mt-16 pt-10">
-        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6">
+      <Reveal as="section" className="hairline mt-28 sm:mt-36 pt-14">
+        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-8">
           <div>
             <span className="eyebrow">Ready to book</span>
-            <h2 className="display mt-4 text-2xl sm:text-3xl max-w-md">
+            <h2 className="display mt-5 text-3xl sm:text-4xl max-w-md">
               Call or send your dates and vehicle type
             </h2>
           </div>
-          <div className="flex flex-col sm:flex-row gap-3 shrink-0">
+          <div className="flex flex-col sm:flex-row gap-4 shrink-0">
             <a href="tel:0430277558" className="btnSignal">
               Call 0430 277 558
             </a>
@@ -160,7 +171,7 @@ export default function FleetPage() {
             </Link>
           </div>
         </div>
-      </section>
+      </Reveal>
     </div>
   );
 }

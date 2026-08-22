@@ -1,5 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import Reveal from "../components/Reveal";
+import RouteTimeline from "../components/RouteTimeline";
 
 export const metadata: Metadata = {
   title: "Why Choose Us",
@@ -26,74 +28,68 @@ const steps = [
 export default function ChooseUsPage() {
   return (
     <div>
-      <span className="eyebrow">Why K22</span>
-      <h1 className="display mt-4 text-3xl sm:text-5xl max-w-lg">
-        Service built around getting you moving.
-      </h1>
-      <p className="lead mt-4 max-w-md">
-        We focus on a smooth booking experience, reliable vehicles, and
-        service that puts the customer first.
-      </p>
+      <div className="max-w-2xl">
+        <span className="eyebrow">Why K22</span>
+        <h1 className="display mt-6 text-4xl sm:text-6xl">
+          Service built around getting you moving.
+        </h1>
+        <p className="lead mt-6 max-w-md">
+          We focus on a smooth booking experience, reliable vehicles, and
+          service that puts the customer first.
+        </p>
 
-      <div className="mt-8 flex flex-col sm:flex-row gap-3">
-        <a href="tel:0430277558" className="btnSignal">
-          Call 0430 277 558
-        </a>
-        <Link href="/fleet" className="btnOutline">
-          View fleet
-        </Link>
+        <div className="mt-9 flex flex-col sm:flex-row gap-4">
+          <a href="tel:0430277558" className="btnSignal">
+            Call 0430 277 558
+          </a>
+          <Link href="/fleet" className="btnOutline">
+            View fleet
+          </Link>
+        </div>
       </div>
 
       {/* Reasons */}
-      <section className="mt-14 sm:mt-16 grid gap-10 lg:grid-cols-[0.8fr_1.2fr]">
-        <div>
-          <span className="eyebrow">What to expect</span>
-          <h2 className="display mt-4 text-2xl sm:text-3xl">
-            Six things we hold ourselves to.
-          </h2>
-        </div>
-        <div>
-          {reasons.map((x) => (
-            <div key={x.title} className="benefitRow">
-              <span className="benefitMark" aria-hidden="true" />
-              <div>
-                <div className="benefitTitle">{x.title}</div>
-                <div className="benefitDesc">{x.desc}</div>
+      <Reveal as="section" className="mt-28 sm:mt-36">
+        <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr]">
+          <div>
+            <span className="eyebrow">What to expect</span>
+            <h2 className="display mt-5 text-3xl sm:text-4xl">
+              Six things we hold ourselves to.
+            </h2>
+          </div>
+          <div>
+            {reasons.map((x, i) => (
+              <div key={x.title} className="reasonRow">
+                <span className="reasonNum">{String(i + 1).padStart(2, "0")}</span>
+                <div>
+                  <div className="reasonTitle">{x.title}</div>
+                  <div className="reasonDesc">{x.desc}</div>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
-      </section>
+      </Reveal>
 
       {/* Process */}
-      <section className="mt-14 sm:mt-16">
+      <Reveal as="section" className="mt-28 sm:mt-36">
         <span className="eyebrow">The process</span>
-        <h2 className="display mt-4 text-2xl sm:text-3xl">
+        <h2 className="display mt-5 text-3xl sm:text-4xl">
           Three steps, start to finish.
         </h2>
-        <div className="timeline mt-8 sm:grid-cols-3 sm:gap-8">
-          {steps.map((x, i) => (
-            <div key={x.title} className="timelineStep">
-              <span className="timelineMark">{i + 1}</span>
-              <div>
-                <div className="timelineTitle">{x.title}</div>
-                <div className="timelineDesc">{x.desc}</div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
+        <RouteTimeline steps={steps} />
+      </Reveal>
 
       {/* CTA */}
-      <section className="hairline mt-14 sm:mt-16 pt-10">
-        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6">
+      <Reveal as="section" className="hairline mt-28 sm:mt-36 pt-14">
+        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-8">
           <div>
             <span className="eyebrow">Ready to book</span>
-            <h2 className="display mt-4 text-2xl sm:text-3xl max-w-md">
+            <h2 className="display mt-5 text-3xl sm:text-4xl max-w-md">
               Call or send your dates and vehicle type
             </h2>
           </div>
-          <div className="flex flex-col sm:flex-row gap-3 shrink-0">
+          <div className="flex flex-col sm:flex-row gap-4 shrink-0">
             <a href="tel:0430277558" className="btnSignal">
               Call 0430 277 558
             </a>
@@ -102,7 +98,7 @@ export default function ChooseUsPage() {
             </Link>
           </div>
         </div>
-      </section>
+      </Reveal>
     </div>
   );
 }

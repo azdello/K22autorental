@@ -1,28 +1,30 @@
 @import "tailwindcss";
-@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap");
 
 /* =========================
-   K22 Auto Rentals — Dispatch theme
-   Asphalt + signal amber, condensed signage type
+   K22 Auto Rentals — Route theme
+   Dark, spacious, one signal accent, motion-led
    ========================= */
 
 :root {
-  --bg: #14171b;
-  --bg-alt: #191d21;
-  --surface: #1d2125;
-  --line: #2a2f34;
-  --line-soft: #21252a;
+  --bg: #0a0b0d;
+  --bg-soft: #101216;
 
-  --ink: #f2efe6;
-  --muted: #9096a0;
-  --muted2: #6b7078;
+  --ink: #f3f2ee;
+  --muted: #94989f;
+  --muted-2: #55585e;
 
-  --amber: #ffb300;
-  --amber-ink: #241900;
+  --hairline: rgba(255, 255, 255, 0.08);
+  --hairline-strong: rgba(255, 255, 255, 0.14);
 
-  --font-display: "Oswald", "Arial Narrow", sans-serif;
+  --signal: #ff9d2e;
+  --signal-ink: #241400;
+
+  --font-display: "Space Grotesk", "Arial", sans-serif;
   --font-body: "Inter", -apple-system, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 html,
@@ -38,8 +40,8 @@ body {
 
 .container {
   margin: 0 auto;
-  max-width: 1120px;
-  padding: 0 18px;
+  max-width: 1160px;
+  padding: 0 20px;
 }
 
 /* =========================
@@ -49,28 +51,27 @@ body {
 .eyebrow {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   font-family: var(--font-mono);
   font-size: 11px;
   font-weight: 600;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--amber);
+  color: var(--signal);
 }
 
 .eyebrow::before {
   content: "";
-  width: 16px;
+  width: 18px;
   height: 1px;
-  background: var(--amber);
+  background: var(--signal);
 }
 
 .display {
   font-family: var(--font-display);
   font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.01em;
-  line-height: 1.02;
+  letter-spacing: -0.01em;
+  line-height: 1.05;
   color: var(--ink);
 }
 
@@ -80,8 +81,9 @@ body {
 
 .lead {
   color: var(--muted);
-  line-height: 1.65;
-  font-size: 15px;
+  line-height: 1.7;
+  font-size: 16px;
+  font-weight: 400;
 }
 
 /* =========================
@@ -93,22 +95,24 @@ body {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  height: 48px;
-  padding: 0 20px;
-  background: var(--amber);
-  color: var(--amber-ink);
-  font-family: var(--font-mono);
+  height: 50px;
+  padding: 0 24px;
+  background: var(--signal);
+  color: var(--signal-ink);
+  font-family: var(--font-body);
   font-weight: 600;
-  font-size: 14px;
-  letter-spacing: 0.02em;
-  border-radius: 3px;
+  font-size: 14.5px;
+  border-radius: 999px;
   text-decoration: none;
-  transition: transform 140ms ease, background 140ms ease;
+  transition: transform 320ms var(--ease), box-shadow 320ms var(--ease),
+    background 320ms var(--ease);
+  box-shadow: 0 0 0 0 rgba(255, 157, 46, 0);
 }
 
 .btnSignal:hover {
-  background: #ffc333;
-  transform: translateY(-1px);
+  background: #ffb04f;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px -10px rgba(255, 157, 46, 0.55);
 }
 
 .btnOutline {
@@ -116,21 +120,23 @@ body {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  height: 48px;
-  padding: 0 20px;
-  border: 1px solid var(--line);
+  height: 50px;
+  padding: 0 24px;
+  border: 1px solid var(--hairline-strong);
   color: var(--ink);
-  font-family: var(--font-mono);
+  font-family: var(--font-body);
   font-weight: 500;
-  font-size: 14px;
-  border-radius: 3px;
+  font-size: 14.5px;
+  border-radius: 999px;
   text-decoration: none;
-  transition: border-color 140ms ease, background 140ms ease;
+  transition: border-color 320ms var(--ease), background 320ms var(--ease),
+    transform 320ms var(--ease);
 }
 
 .btnOutline:hover {
-  border-color: var(--muted2);
+  border-color: var(--muted);
   background: rgba(255, 255, 255, 0.03);
+  transform: translateY(-2px);
 }
 
 /* =========================
@@ -138,223 +144,341 @@ body {
    ========================= */
 
 .hairline {
-  border-top: 1px solid var(--line);
+  border-top: 1px solid var(--hairline);
 }
 
 .panel {
-  border: 1px solid var(--line);
-  background: var(--surface);
-  border-radius: 4px;
+  background: var(--bg-soft);
+  border: 1px solid var(--hairline);
+  border-radius: 20px;
 }
 
 /* =========================
-   Dispatch board (signature element)
+   Reveal-on-scroll (motion, respects reduced-motion)
    ========================= */
 
-.board {
-  border: 1px solid var(--line);
-  border-radius: 4px;
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 900ms var(--ease), transform 900ms var(--ease);
+}
+
+.reveal.is-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* =========================
+   Hero ambient route line (pure CSS drift)
+   ========================= */
+
+.heroRoute {
+  position: absolute;
+  inset: 0;
   overflow: hidden;
-  background: var(--surface);
+  pointer-events: none;
+  z-index: 0;
 }
 
-.boardHead {
-  display: grid;
-  grid-template-columns: 64px 1fr auto;
-  gap: 12px;
-  padding: 10px 14px;
-  background: var(--bg-alt);
-  border-bottom: 1px solid var(--line);
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--muted2);
+.heroRoute svg {
+  position: absolute;
+  top: -10%;
+  right: -12%;
+  width: 900px;
+  max-width: none;
+  height: auto;
+  opacity: 0.55;
 }
 
-.boardRow {
+.heroRoute .drawPath {
+  stroke-dasharray: 6 14;
+  animation: dashDrift 26s linear infinite;
+}
+
+.heroRoute .glowDot {
+  animation: dotTravel 9s var(--ease) infinite;
+  offset-rotate: 0deg;
+}
+
+@keyframes dashDrift {
+  to {
+    stroke-dashoffset: -400;
+  }
+}
+
+@keyframes dotTravel {
+  0% {
+    offset-distance: 0%;
+    opacity: 0;
+  }
+  8% {
+    opacity: 1;
+  }
+  92% {
+    opacity: 1;
+  }
+  100% {
+    offset-distance: 100%;
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .heroRoute .drawPath,
+  .heroRoute .glowDot {
+    animation: none;
+  }
+}
+
+/* =========================
+   Stat trio (flowing, no boxes)
+   ========================= */
+
+.statRow {
   display: grid;
-  grid-template-columns: 64px 1fr auto;
-  gap: 12px;
+  gap: 40px;
+}
+
+.statNum {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(28px, 4vw, 40px);
+  letter-spacing: -0.02em;
+}
+
+.statLabel {
+  margin-top: 6px;
+  font-size: 13.5px;
+  color: var(--muted);
+  line-height: 1.5;
+  max-width: 22ch;
+}
+
+/* =========================
+   Reason rows — ghost numerals, no cards
+   ========================= */
+
+.reasonRow {
+  display: flex;
+  gap: 24px;
+  padding: 28px 0;
+  border-top: 1px solid var(--hairline);
+}
+
+.reasonRow:last-child {
+  border-bottom: 1px solid var(--hairline);
+}
+
+.reasonNum {
+  flex-shrink: 0;
+  width: 56px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 28px;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--hairline-strong);
+  line-height: 1;
+  padding-top: 2px;
+}
+
+.reasonTitle {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 17px;
+  color: var(--ink);
+}
+
+.reasonDesc {
+  margin-top: 5px;
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.6;
+  max-width: 46ch;
+}
+
+/* =========================
+   Route timeline (signature element)
+   ========================= */
+
+.routeTimeline {
+  position: relative;
+}
+
+.routeBar {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  right: 5px;
+  height: 1.5px;
+  background: var(--hairline-strong);
+  display: none;
+}
+
+.routeBarFill {
+  position: absolute;
+  inset: 0;
+  background: var(--signal);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 1600ms var(--ease);
+}
+
+.routeTimeline.is-in .routeBarFill {
+  transform: scaleX(1);
+}
+
+@media (min-width: 640px) {
+  .routeBar {
+    display: block;
+  }
+}
+
+.routeStep {
+  position: relative;
+  z-index: 1;
+}
+
+.routeStepLine {
+  width: 1.5px;
+  flex: 1;
+  margin-top: 4px;
+  background: var(--hairline-strong);
+  min-height: 24px;
+}
+
+.routeMark {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: var(--bg);
+  border: 1.5px solid var(--hairline-strong);
+  transition: border-color 500ms var(--ease), background 500ms var(--ease),
+    box-shadow 500ms var(--ease);
+  transition-delay: 200ms;
+}
+
+.routeTimeline.is-in .routeMark {
+  border-color: var(--signal);
+  background: var(--signal);
+  box-shadow: 0 0 0 5px rgba(255, 157, 46, 0.12);
+}
+
+.routeTitle {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 17px;
+  color: var(--ink);
+}
+
+.routeDesc {
+  margin-top: 6px;
+  font-size: 13.5px;
+  color: var(--muted);
+  line-height: 1.6;
+  max-width: 32ch;
+}
+
+/* =========================
+   Fleet list — flowing rows, not a boxed board
+   ========================= */
+
+.fleetList {
+  border-top: 1px solid var(--hairline);
+}
+
+.fleetRow {
+  display: flex;
   align-items: center;
-  padding: 14px;
-  border-bottom: 1px solid var(--line-soft);
+  justify-content: space-between;
+  gap: 20px;
+  padding: 26px 4px;
+  border-bottom: 1px solid var(--hairline);
   text-decoration: none;
   color: inherit;
-  transition: background 120ms ease;
+  transition: padding-left 400ms var(--ease), background 400ms var(--ease);
 }
 
-.boardRow:last-child {
-  border-bottom: none;
+a.fleetRow:hover {
+  padding-left: 14px;
+  background: rgba(255, 255, 255, 0.015);
 }
 
-a.boardRow:hover {
-  background: var(--bg-alt);
+.fleetMain {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  min-width: 0;
 }
 
-.boardCode {
+.fleetCode {
+  flex-shrink: 0;
   font-family: var(--font-mono);
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
-  color: var(--amber);
-  letter-spacing: 0.02em;
+  color: var(--muted-2);
+  letter-spacing: 0.04em;
+  transition: color 400ms var(--ease);
 }
 
-.boardName {
+a.fleetRow:hover .fleetCode {
+  color: var(--signal);
+}
+
+.fleetText {
+  min-width: 0;
+}
+
+.fleetName {
   font-family: var(--font-display);
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.01em;
 }
 
-.boardDesc {
+.fleetDesc {
   margin-top: 3px;
-  font-size: 12.5px;
+  font-size: 13.5px;
   color: var(--muted);
   line-height: 1.5;
 }
 
-.boardStatus {
+.fleetStatus {
+  flex-shrink: 0;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 10px;
   font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--muted2);
+  font-size: 11.5px;
+  color: var(--muted-2);
   white-space: nowrap;
+}
+
+.fleetArrow {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  color: var(--muted-2);
+  transition: transform 400ms var(--ease), color 400ms var(--ease);
+}
+
+a.fleetRow:hover .fleetArrow {
+  transform: translateX(6px);
+  color: var(--signal);
 }
 
 .dot {
   width: 6px;
   height: 6px;
   border-radius: 999px;
-  background: var(--amber);
+  background: var(--signal);
   flex-shrink: 0;
-}
-
-/* =========================
-   Manifest strip
-   ========================= */
-
-.manifest {
-  display: grid;
-  border: 1px solid var(--line);
-  border-radius: 4px;
-  background: var(--surface);
-  overflow: hidden;
-}
-
-.manifestCell {
-  padding: 16px 14px;
-  border-bottom: 1px solid var(--line);
-}
-
-.manifestCell:last-child {
-  border-bottom: none;
-}
-
-.manifestLabel {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--amber);
-}
-
-.manifestValue {
-  margin-top: 6px;
-  font-family: var(--font-display);
-  font-size: 18px;
-  font-weight: 600;
-  text-transform: uppercase;
-}
-
-.manifestNote {
-  margin-top: 4px;
-  font-size: 12.5px;
-  color: var(--muted);
-  line-height: 1.5;
-}
-
-/* =========================
-   Timeline (real sequence: booking steps)
-   ========================= */
-
-.timeline {
-  position: relative;
-  display: grid;
-  gap: 20px;
-}
-
-.timelineStep {
-  display: flex;
-  gap: 14px;
-}
-
-.timelineMark {
-  flex-shrink: 0;
-  width: 30px;
-  height: 30px;
-  border: 1px solid var(--amber);
-  color: var(--amber);
-  border-radius: 999px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-mono);
-  font-size: 12px;
-  font-weight: 600;
-}
-
-.timelineTitle {
-  font-family: var(--font-display);
-  font-size: 16px;
-  font-weight: 600;
-  text-transform: uppercase;
-}
-
-.timelineDesc {
-  margin-top: 4px;
-  font-size: 13px;
-  color: var(--muted);
-  line-height: 1.55;
-}
-
-/* =========================
-   Benefit list
-   ========================= */
-
-.benefitRow {
-  display: flex;
-  gap: 12px;
-  padding: 16px 0;
-  border-bottom: 1px solid var(--line-soft);
-}
-
-.benefitRow:last-child {
-  border-bottom: none;
-}
-
-.benefitMark {
-  flex-shrink: 0;
-  width: 8px;
-  height: 8px;
-  margin-top: 6px;
-  background: var(--amber);
-}
-
-.benefitTitle {
-  font-weight: 600;
-  font-size: 14.5px;
-  color: var(--ink);
-}
-
-.benefitDesc {
-  margin-top: 3px;
-  font-size: 13px;
-  color: var(--muted);
-  line-height: 1.55;
 }
 
 /* =========================
@@ -363,29 +487,29 @@ a.boardRow:hover {
 
 .formInput {
   width: 100%;
-  border: 1px solid var(--line);
+  border: 1px solid var(--hairline);
   background: var(--bg);
   color: var(--ink);
-  border-radius: 3px;
-  padding: 10px 12px;
-  font-size: 14px;
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 14.5px;
   font-family: var(--font-body);
   outline: none;
-  transition: border-color 140ms ease;
+  transition: border-color 250ms var(--ease);
 }
 
 .formInput::placeholder {
-  color: var(--muted2);
+  color: var(--muted-2);
 }
 
 .formInput:focus {
-  border-color: var(--amber);
+  border-color: var(--signal);
 }
 
 select.formInput {
   appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23ffb300'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23ff9d2e'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
-  background-position: right 12px center;
-  padding-right: 30px;
+  background-position: right 14px center;
+  padding-right: 32px;
 }

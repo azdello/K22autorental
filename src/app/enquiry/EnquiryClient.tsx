@@ -64,7 +64,7 @@ export default function EnquiryClient() {
         availability fast — or call{" "}
         <a
           href="tel:0430277558"
-          className="text-[var(--amber)] hover:underline"
+          className="text-[var(--signal)] hover:underline"
         >
           0430 277 558
         </a>{" "}
@@ -169,7 +169,7 @@ export default function EnquiryClient() {
                 </p>
               ) : null}
 
-              <p className="text-xs text-[var(--muted2)]">
+              <p className="text-xs text-[var(--muted-2)]">
                 By submitting, you agree we can contact you about
                 availability and booking details.
               </p>
@@ -181,24 +181,24 @@ export default function EnquiryClient() {
         <div className="lg:col-span-2">
           <div className="panel p-6 sm:p-8">
             <h2 className="display text-lg">What happens next</h2>
-            <div className="mt-4">
-              <div className="benefitRow">
-                <span className="benefitMark" aria-hidden="true" />
-                <div className="benefitDesc">
+            <div className="mt-5 space-y-4">
+              <div className="flex gap-3">
+                <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--signal)]" aria-hidden="true" />
+                <p className="text-sm text-[var(--muted)] leading-relaxed">
                   We review your dates and vehicle type.
-                </div>
+                </p>
               </div>
-              <div className="benefitRow">
-                <span className="benefitMark" aria-hidden="true" />
-                <div className="benefitDesc">
+              <div className="flex gap-3">
+                <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--signal)]" aria-hidden="true" />
+                <p className="text-sm text-[var(--muted)] leading-relaxed">
                   We confirm availability fast.
-                </div>
+                </p>
               </div>
-              <div className="benefitRow">
-                <span className="benefitMark" aria-hidden="true" />
-                <div className="benefitDesc">
+              <div className="flex gap-3">
+                <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--signal)]" aria-hidden="true" />
+                <p className="text-sm text-[var(--muted)] leading-relaxed">
                   We share pickup details and next steps.
-                </div>
+                </p>
               </div>
             </div>
 

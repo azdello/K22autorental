@@ -92,8 +92,8 @@ export default function RootLayout({
       </head>
       <body className="min-h-screen antialiased">
         {/* Header */}
-        <header className="sticky top-0 z-50 border-b border-[var(--line)] bg-[var(--bg)]/95 backdrop-blur">
-          <div className="container flex items-center justify-between gap-4 py-3">
+        <header className="sticky top-0 z-50 border-b border-[var(--hairline)] bg-[var(--bg)]/90 backdrop-blur-md">
+          <div className="container flex items-center justify-between gap-4 py-4">
             <Link href="/" className="flex items-center gap-3 shrink-0">
               <Image
                 src="/k22-logo.png"
@@ -111,25 +111,25 @@ export default function RootLayout({
             >
               <Link
                 href="/"
-                className="mono px-3 py-2 text-xs uppercase tracking-wider text-[var(--muted)] hover:text-[var(--ink)] transition"
+                className="px-4 py-2 text-sm font-medium text-[var(--muted)] hover:text-[var(--ink)] transition-colors duration-300"
               >
                 Home
               </Link>
               <Link
                 href="/fleet"
-                className="mono px-3 py-2 text-xs uppercase tracking-wider text-[var(--muted)] hover:text-[var(--ink)] transition"
+                className="px-4 py-2 text-sm font-medium text-[var(--muted)] hover:text-[var(--ink)] transition-colors duration-300"
               >
                 Fleet
               </Link>
               <Link
                 href="/choose-us"
-                className="mono px-3 py-2 text-xs uppercase tracking-wider text-[var(--muted)] hover:text-[var(--ink)] transition"
+                className="px-4 py-2 text-sm font-medium text-[var(--muted)] hover:text-[var(--ink)] transition-colors duration-300"
               >
                 Choose Us
               </Link>
               <Link
                 href="/enquiry"
-                className="mono px-3 py-2 text-xs uppercase tracking-wider text-[var(--muted)] hover:text-[var(--ink)] transition"
+                className="px-4 py-2 text-sm font-medium text-[var(--muted)] hover:text-[var(--ink)] transition-colors duration-300"
               >
                 Enquiry
               </Link>
@@ -137,10 +137,10 @@ export default function RootLayout({
 
             <a
               href="tel:0430277558"
-              className="mono flex items-center gap-2 text-sm font-semibold text-[var(--ink)] border border-[var(--line)] rounded-[3px] px-3 py-2 hover:border-[var(--amber)] hover:text-[var(--amber)] transition shrink-0"
+              className="mono flex items-center gap-2 text-sm font-semibold text-[var(--ink)] border border-[var(--hairline-strong)] rounded-full px-4 py-2.5 hover:border-[var(--signal)] hover:text-[var(--signal)] transition-colors duration-300 shrink-0"
             >
               <span
-                className="inline-block w-1.5 h-1.5 rounded-full bg-[var(--amber)]"
+                className="inline-block w-1.5 h-1.5 rounded-full bg-[var(--signal)]"
                 aria-hidden="true"
               />
               0430 277 558
@@ -149,29 +149,29 @@ export default function RootLayout({
 
           <nav
             aria-label="Primary mobile"
-            className="flex sm:hidden container gap-4 pb-3 -mt-1"
+            className="flex sm:hidden container gap-5 pb-3 -mt-1"
           >
             <Link
               href="/"
-              className="mono text-[11px] uppercase tracking-wider text-[var(--muted)]"
+              className="text-[12px] font-medium text-[var(--muted)]"
             >
               Home
             </Link>
             <Link
               href="/fleet"
-              className="mono text-[11px] uppercase tracking-wider text-[var(--muted)]"
+              className="text-[12px] font-medium text-[var(--muted)]"
             >
               Fleet
             </Link>
             <Link
               href="/choose-us"
-              className="mono text-[11px] uppercase tracking-wider text-[var(--muted)]"
+              className="text-[12px] font-medium text-[var(--muted)]"
             >
               Choose Us
             </Link>
             <Link
               href="/enquiry"
-              className="mono text-[11px] uppercase tracking-wider text-[var(--muted)]"
+              className="text-[12px] font-medium text-[var(--muted)]"
             >
               Enquiry
             </Link>
@@ -179,19 +179,19 @@ export default function RootLayout({
         </header>
 
         {/* Page */}
-        <main className="container py-10 sm:py-14">{children}</main>
+        <main className="container py-14 sm:py-20">{children}</main>
 
         {/* Footer */}
-        <footer className="hairline mt-16">
-          <div className="container py-10">
-            <div className="grid gap-8 sm:grid-cols-[1.3fr_1fr]">
+        <footer className="hairline mt-20">
+          <div className="container py-14">
+            <div className="grid gap-10 sm:grid-cols-[1.3fr_1fr]">
               <div>
                 <div className="display text-xl">K22 Auto Rentals</div>
-                <p className="mt-3 text-sm text-[var(--muted)] leading-relaxed max-w-sm">
+                <p className="mt-4 text-sm text-[var(--muted)] leading-relaxed max-w-sm">
                   Personal rentals, delivery-ready vehicles, and taxi-ready
                   sedans &amp; SUVs, dispatched out of Cairnlea, VIC.
                 </p>
-                <div className="mt-5 flex items-center gap-2 text-xs text-[var(--muted2)]">
+                <div className="mt-6 flex items-center gap-2 text-xs text-[var(--muted-2)]">
                   <span>Design by</span>
                   <Link
                     href="https://azdello.com"
@@ -204,7 +204,7 @@ export default function RootLayout({
                       alt="Azdello"
                       width={110}
                       height={30}
-                      className="h-6 w-auto opacity-80 hover:opacity-100 transition"
+                      className="h-6 w-auto opacity-70 hover:opacity-100 transition-opacity duration-300"
                     />
                   </Link>
                 </div>
@@ -214,23 +214,23 @@ export default function RootLayout({
                 <div className="eyebrow sm:justify-end">Call to book</div>
                 <a
                   href="tel:0430277558"
-                  className="mono mt-2 block text-2xl font-semibold text-[var(--ink)] hover:text-[var(--amber)] transition"
+                  className="mono mt-3 block text-2xl font-semibold text-[var(--ink)] hover:text-[var(--signal)] transition-colors duration-300"
                 >
                   0430 277 558
                 </a>
-                <div className="mt-4 flex flex-wrap gap-2 sm:justify-end">
-                  <Link href="/fleet" className="btnOutline text-xs h-9 px-3">
+                <div className="mt-5 flex flex-wrap gap-2.5 sm:justify-end">
+                  <Link href="/fleet" className="btnOutline text-xs h-10 px-4">
                     Fleet
                   </Link>
                   <Link
                     href="/choose-us"
-                    className="btnOutline text-xs h-9 px-3"
+                    className="btnOutline text-xs h-10 px-4"
                   >
                     Choose Us
                   </Link>
                   <Link
                     href="/enquiry"
-                    className="btnOutline text-xs h-9 px-3"
+                    className="btnOutline text-xs h-10 px-4"
                   >
                     Enquiry
                   </Link>
@@ -238,7 +238,7 @@ export default function RootLayout({
               </div>
             </div>
 
-            <div className="hairline mt-8 pt-5 text-xs text-[var(--muted2)]">
+            <div className="hairline mt-10 pt-6 text-xs text-[var(--muted-2)]">
               © {new Date().getFullYear()} K22 Auto Rentals. All rights
               reserved.
             </div>
