@@ -137,7 +137,7 @@ export default function RootLayout({
 
             <a
               href="tel:0430277558"
-              className="mono flex items-center gap-2 text-sm font-semibold text-[var(--ink)] border border-[var(--hairline-strong)] rounded-full px-4 py-2.5 hover:border-[var(--signal)] hover:text-[var(--signal)] transition-colors duration-300 shrink-0"
+              className="mono flex items-center gap-2 text-xs sm:text-sm font-semibold text-[var(--ink)] border border-[var(--hairline-strong)] rounded-full px-3 py-2 sm:px-4 sm:py-2.5 hover:border-[var(--signal)] hover:text-[var(--signal)] transition-colors duration-300 shrink-0"
             >
               <span
                 className="inline-block w-1.5 h-1.5 rounded-full bg-[var(--signal)]"

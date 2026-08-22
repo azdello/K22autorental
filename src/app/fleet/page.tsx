@@ -86,7 +86,7 @@ export default function FleetPage() {
               href={`/enquiry?type=${encodeURIComponent(v.enquiryType)}`}
               className="fleetRow"
             >
-              <div className="fleetMain">
+              <div className="fleetMain flex-1 min-w-0">
                 <span className="fleetCode">{v.code}</span>
                 <div className="fleetText">
                   <div className="fleetName">{v.title}</div>
@@ -96,7 +96,7 @@ export default function FleetPage() {
               <div className="flex items-center gap-4">
                 <span className="fleetStatus">
                   <span className="dot" aria-hidden="true" />
-                  {v.status}
+                  <span className="hidden sm:inline">{v.status}</span>
                 </span>
                 <svg
                   className="fleetArrow"

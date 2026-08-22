@@ -77,7 +77,7 @@ export default function HomePage() {
     <div>
       {/* HERO */}
       <section className="relative pt-6 pb-10 sm:pt-10">
-        <div className="heroRoute" aria-hidden="true">
+        <div className="heroRoute hidden sm:block" aria-hidden="true">
           <svg viewBox="0 0 700 500" fill="none">
             <path
               className="drawPath"
@@ -101,7 +101,7 @@ export default function HomePage() {
 
         <div className="relative max-w-2xl">
           <span className="eyebrow">Victoria · Vehicle hire</span>
-          <h1 className="display mt-6 text-5xl sm:text-6xl lg:text-7xl">
+          <h1 className="display mt-6 text-4xl sm:text-6xl lg:text-7xl">
             Rentals that
             <br />
             show up ready.
@@ -196,7 +196,7 @@ export default function HomePage() {
               href={`/enquiry?type=${encodeURIComponent(v.name)}`}
               className="fleetRow"
             >
-              <div className="fleetMain">
+              <div className="fleetMain flex-1 min-w-0">
                 <span className="fleetCode">{v.code}</span>
                 <div className="fleetText">
                   <div className="fleetName">{v.name}</div>
@@ -206,7 +206,7 @@ export default function HomePage() {
               <div className="flex items-center gap-4">
                 <span className="fleetStatus">
                   <span className="dot" aria-hidden="true" />
-                  {v.status}
+                  <span className="hidden sm:inline">{v.status}</span>
                 </span>
                 <svg
                   className="fleetArrow"

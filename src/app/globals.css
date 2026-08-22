@@ -415,9 +415,9 @@ body {
 
 .fleetRow {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
-  gap: 20px;
+  gap: 16px;
   padding: 26px 4px;
   border-bottom: 1px solid var(--hairline);
   text-decoration: none;
