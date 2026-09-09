@@ -1,7 +1,11 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
 import { verifyContractToken } from "../token";
-import { CONTRACT_INTRO, CONTRACT_TERMS_SECTIONS } from "../../../contract/terms";
+import {
+  CONTRACT_INTRO,
+  CONTRACT_TERMS_SECTIONS,
+  CONTRACT_ACKNOWLEDGMENT,
+} from "../../../contract/terms";
 
 export const runtime = "nodejs";
 
@@ -23,6 +27,30 @@ function dataUrlToBuffer(dataUrl: string): { buffer: Buffer; ext: string } | nul
   if (!match) return null;
   const ext = match[1] === "jpeg" ? "jpg" : match[1];
   return { buffer: Buffer.from(match[2], "base64"), ext };
+}
+
+function escapeHtml(input: string) {
+  return input
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+function bodyLineHtml(line: string) {
+  if (line.startsWith("IMPORTANT:")) {
+    const text = line.replace("IMPORTANT:", "").trim();
+    return `<p style="margin:0 0 8px;color:#b3261e;font-weight:600">${escapeHtml(text)}</p>`;
+  }
+  return `<p style="margin:0 0 8px">${escapeHtml(line)}</p>`;
+}
+
+function bodyLineText(line: string) {
+  if (line.startsWith("IMPORTANT:")) {
+    return `** IMPORTANT: ${line.replace("IMPORTANT:", "").trim()} **`;
+  }
+  return line;
 }
 
 export async function POST(req: Request) {
@@ -75,22 +103,31 @@ export async function POST(req: Request) {
     if (
       !renterName ||
       !renterPhone ||
+      !renterSecondaryPhone ||
       !renterEmail ||
       !renterAddress ||
+      !renterLicense ||
       !vehicleType ||
       !vehicleMakeModel ||
       !vehicleYear ||
       !vehiclePlate ||
       !startDate ||
       !endDate ||
+      !rentDueDay ||
       !rentalRate ||
-      !agreeTerms ||
+      !bondAmount ||
+      !insuranceExcess ||
+      !pickupOdometer ||
+      !notes ||
       !staffName ||
+      !agreeTerms ||
       !signatureDataUrl.startsWith("data:image/png;base64,") ||
-      !staffSignatureDataUrl.startsWith("data:image/png;base64,")
+      !staffSignatureDataUrl.startsWith("data:image/png;base64,") ||
+      !licenceFrontUrl.startsWith("data:image/") ||
+      !licenceBackUrl.startsWith("data:image/")
     ) {
       return NextResponse.json(
-        { ok: false, error: "Missing required fields or signatures." },
+        { ok: false, error: "Missing required fields, photos, or signatures." },
         { status: 400 }
       );
     }
@@ -116,13 +153,13 @@ export async function POST(req: Request) {
     const termsSectionsHtml = CONTRACT_TERMS_SECTIONS.map(
       (section) => `
         <h4 style="margin-bottom:4px">${escapeHtml(section.heading)}</h4>
-        ${section.body.map((p) => `<p style="margin:0 0 8px">${escapeHtml(p)}</p>`).join("")}
+        ${section.body.map(bodyLineHtml).join("")}
       `
     ).join("");
 
     const termsTextLines = CONTRACT_TERMS_SECTIONS.flatMap((section) => [
       section.heading.toUpperCase(),
-      ...section.body,
+      ...section.body.map(bodyLineText),
       "",
     ]);
 
@@ -131,10 +168,10 @@ export async function POST(req: Request) {
       <table cellpadding="6" cellspacing="0" style="border-collapse:collapse">
         <tr><td><b>Full Name</b></td><td>${escapeHtml(renterName)}</td></tr>
         <tr><td><b>Phone</b></td><td>${escapeHtml(renterPhone)}</td></tr>
-        <tr><td><b>Secondary Phone</b></td><td>${escapeHtml(renterSecondaryPhone || "(not provided)")}</td></tr>
+        <tr><td><b>Secondary Phone</b></td><td>${escapeHtml(renterSecondaryPhone)}</td></tr>
         <tr><td><b>Email</b></td><td>${escapeHtml(renterEmail)}</td></tr>
         <tr><td><b>Address</b></td><td>${escapeHtml(renterAddress)}</td></tr>
-        <tr><td><b>Licence Number</b></td><td>${escapeHtml(renterLicense || "(not provided)")}</td></tr>
+        <tr><td><b>Licence Number</b></td><td>${escapeHtml(renterLicense)}</td></tr>
       </table>
 
       <h3 style="margin-top:20px">Vehicle</h3>
@@ -145,22 +182,23 @@ export async function POST(req: Request) {
         <tr><td><b>License Plate</b></td><td>${escapeHtml(vehiclePlate)}</td></tr>
         <tr><td><b>Rental Start Date</b></td><td>${escapeHtml(startDateAU)}</td></tr>
         <tr><td><b>Rental End Date</b></td><td>${escapeHtml(endDateAU)}</td></tr>
-        <tr><td><b>Rent Due Weekly On</b></td><td>${escapeHtml(rentDueDay || "(not applicable)")}</td></tr>
+        <tr><td><b>Rent Due Weekly On</b></td><td>${escapeHtml(rentDueDay)}</td></tr>
         <tr><td><b>Rental Rate</b></td><td>${escapeHtml(rentalRate)}</td></tr>
-        <tr><td><b>Bond Amount</b></td><td>${escapeHtml(bondAmount || "(not provided)")}</td></tr>
-        <tr><td><b>Insurance Excess</b></td><td>${escapeHtml(insuranceExcess || "(not provided)")}</td></tr>
-        <tr><td><b>Pickup Odometer</b></td><td>${escapeHtml(pickupOdometer || "(not provided)")}</td></tr>
-        <tr><td><b>Notes</b></td><td>${escapeHtml(notes || "(none)")}</td></tr>
+        <tr><td><b>Bond Amount</b></td><td>${escapeHtml(bondAmount)}</td></tr>
+        <tr><td><b>Insurance Excess</b></td><td>${escapeHtml(insuranceExcess)}</td></tr>
+        <tr><td><b>Pickup Odometer</b></td><td>${escapeHtml(pickupOdometer)}</td></tr>
+        <tr><td><b>Notes</b></td><td>${escapeHtml(notes)}</td></tr>
       </table>
     `;
 
     const html = `
-      <div style="font-family: Arial, sans-serif; line-height:1.5; max-width:640px">
+      <div style="font-family: Arial, sans-serif; line-height:1.5; max-width:640px; background:#ffffff; color:#17181a">
         <h2>K22 Auto Rentals - Vehicle Rental Contract</h2>
         <p>${escapeHtml(CONTRACT_INTRO)}</p>
         ${detailsHtml}
         <h3 style="margin-top:20px">Terms</h3>
         ${termsSectionsHtml}
+        <p style="margin-top:16px;color:#b3261e;font-weight:600">${escapeHtml(CONTRACT_ACKNOWLEDGMENT)}</p>
         <h3 style="margin-top:20px">Signatures</h3>
         <p style="margin-bottom:4px"><b>Renter Signature</b> (${escapeHtml(renterName)})</p>
         <img src="${signatureDataUrl}" alt="Renter signature" style="max-width:320px;border:1px solid #ddd;padding:8px;background:#fff" />
@@ -168,7 +206,7 @@ export async function POST(req: Request) {
         <p style="margin-bottom:4px"><b>Rental Provider Representative Signature</b> (${escapeHtml(staffName)})</p>
         <img src="${staffSignatureDataUrl}" alt="Staff signature" style="max-width:320px;border:1px solid #ddd;padding:8px;background:#fff" />
         <p style="margin:6px 0 0;color:#666">Date signed: ${escapeHtml(signedDateAU)}</p>
-        ${licenceFrontUrl || licenceBackUrl ? '<p style="margin-top:16px;color:#666">Licence photos are attached to this email.</p>' : ""}
+        <p style="margin-top:16px;color:#666">Licence photos are attached to this email.</p>
       </div>
     `;
 
@@ -180,10 +218,10 @@ export async function POST(req: Request) {
       "RENTER",
       `Full Name: ${renterName}`,
       `Phone: ${renterPhone}`,
-      `Secondary Phone: ${renterSecondaryPhone || "(not provided)"}`,
+      `Secondary Phone: ${renterSecondaryPhone}`,
       `Email: ${renterEmail}`,
       `Address: ${renterAddress}`,
-      `Licence Number: ${renterLicense || "(not provided)"}`,
+      `Licence Number: ${renterLicense}`,
       "",
       "VEHICLE",
       `Category: ${vehicleType}`,
@@ -192,15 +230,17 @@ export async function POST(req: Request) {
       `License Plate: ${vehiclePlate}`,
       `Rental Start Date: ${startDateAU}`,
       `Rental End Date: ${endDateAU}`,
-      `Rent Due Weekly On: ${rentDueDay || "(not applicable)"}`,
+      `Rent Due Weekly On: ${rentDueDay}`,
       `Rental Rate: ${rentalRate}`,
-      `Bond Amount: ${bondAmount || "(not provided)"}`,
-      `Insurance Excess: ${insuranceExcess || "(not provided)"}`,
-      `Pickup Odometer: ${pickupOdometer || "(not provided)"}`,
-      `Notes: ${notes || "(none)"}`,
+      `Bond Amount: ${bondAmount}`,
+      `Insurance Excess: ${insuranceExcess}`,
+      `Pickup Odometer: ${pickupOdometer}`,
+      `Notes: ${notes}`,
       "",
       "TERMS",
       ...termsTextLines,
+      bodyLineText(`IMPORTANT: ${CONTRACT_ACKNOWLEDGMENT}`),
+      "",
       "SIGNATURES",
       `Renter Signature: ${renterName} (image attached / embedded in HTML email)`,
       `Date signed: ${signedDateAU}`,
@@ -265,13 +305,4 @@ export async function POST(req: Request) {
       { status: 500 }
     );
   }
-}
-
-function escapeHtml(input: string) {
-  return input
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
 }

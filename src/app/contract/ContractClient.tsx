@@ -6,7 +6,7 @@ import SignaturePad from "../components/SignaturePad";
 import {
   CONTRACT_INTRO,
   CONTRACT_TERMS_SECTIONS,
-  CONTRACT_TERMS_NOTE,
+  CONTRACT_ACKNOWLEDGMENT,
 } from "./terms";
 
 function toISODate(d: Date) {
@@ -85,6 +85,21 @@ function validateDates(
   return errors;
 }
 
+function renderBodyLine(line: string, key: string) {
+  if (line.startsWith("IMPORTANT:")) {
+    return (
+      <p key={key} className="mb-1.5 last:mb-0 termsImportant">
+        {line.replace("IMPORTANT:", "").trim()}
+      </p>
+    );
+  }
+  return (
+    <p key={key} className="mb-1.5 last:mb-0">
+      {line}
+    </p>
+  );
+}
+
 const WEEKDAYS = [
   "Sunday",
   "Monday",
@@ -117,6 +132,26 @@ const emptyForm = {
   staffName: "",
   agreeTerms: false,
 };
+
+const REQUIRED_TEXT_FIELDS: { key: keyof typeof emptyForm; label: string }[] = [
+  { key: "renterName", label: "Renter full name" },
+  { key: "renterPhone", label: "Renter phone number" },
+  { key: "renterSecondaryPhone", label: "Secondary phone number" },
+  { key: "renterEmail", label: "Renter email" },
+  { key: "renterAddress", label: "Renter address" },
+  { key: "renterLicense", label: "Licence number" },
+  { key: "vehicleType", label: "Vehicle category" },
+  { key: "vehicleMakeModel", label: "Vehicle make and model" },
+  { key: "vehicleYear", label: "Vehicle year" },
+  { key: "vehiclePlate", label: "License plate number" },
+  { key: "rentDueDay", label: "Rent due day" },
+  { key: "rentalRate", label: "Rental rate" },
+  { key: "bondAmount", label: "Bond amount" },
+  { key: "insuranceExcess", label: "Insurance excess" },
+  { key: "pickupOdometer", label: "Pickup odometer" },
+  { key: "notes", label: "Notes" },
+  { key: "staffName", label: "Rental provider representative name" },
+];
 
 export default function ContractClient() {
   const todayISO = useMemo(() => toISODate(new Date()), []);
@@ -210,6 +245,27 @@ export default function ContractClient() {
     }
   }
 
+  function getMissingFieldLabels(): string[] {
+    const missing: string[] = [];
+
+    for (const field of REQUIRED_TEXT_FIELDS) {
+      const value = form[field.key];
+      if (typeof value === "string" && !value.trim()) {
+        missing.push(field.label);
+      }
+    }
+
+    if (!form.startDate) missing.push("Rental start date");
+    if (!form.endDate) missing.push("Rental end date");
+    if (!licenceFrontUrl) missing.push("Licence front photo");
+    if (!licenceBackUrl) missing.push("Licence back photo");
+    if (!form.agreeTerms) missing.push("Agreement to terms");
+    if (!signatureDataUrl) missing.push("Renter signature");
+    if (!staffSignatureDataUrl) missing.push("Representative signature");
+
+    return missing;
+  }
+
   async function onSubmitContract(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setFormError("");
@@ -217,20 +273,11 @@ export default function ContractClient() {
     const errors = validateDates(form.startDate, form.endDate, todayISO);
     setDateErrors(errors);
 
-    if (
-      errors.startDate ||
-      errors.endDate ||
-      !form.agreeTerms ||
-      !signatureDataUrl ||
-      !form.staffName.trim() ||
-      !staffSignatureDataUrl
-    ) {
-      if (!form.agreeTerms) {
-        setFormError("Please confirm the renter agrees to the terms.");
-      } else if (!signatureDataUrl) {
-        setFormError("The renter's signature is required.");
-      } else if (!form.staffName.trim() || !staffSignatureDataUrl) {
-        setFormError("Staff name and signature are required.");
+    const missing = getMissingFieldLabels();
+
+    if (errors.startDate || errors.endDate || missing.length > 0) {
+      if (missing.length > 0) {
+        setFormError(`Please fill in: ${missing.join(", ")}.`);
       }
       triggerShake();
       return;
@@ -393,7 +440,11 @@ export default function ContractClient() {
       </p>
 
       <Reveal as="div" className="mt-10 max-w-2xl">
-        <div className={`panel p-6 sm:p-8 ${shake ? "shakeOnError" : ""}`}>
+        <div
+          className={`contractLight panel p-6 sm:p-8 ${
+            shake ? "shakeOnError" : ""
+          }`}
+        >
           <form className="space-y-8" onSubmit={onSubmitContract} noValidate>
             {/* RENTER */}
             <div>
@@ -436,11 +487,11 @@ export default function ContractClient() {
                     </span>
                     <input
                       className="formInput"
-                      placeholder="Optional"
                       value={form.renterSecondaryPhone}
                       onChange={(e) =>
                         updateField("renterSecondaryPhone", e.target.value)
                       }
+                      required
                     />
                   </label>
 
@@ -477,7 +528,7 @@ export default function ContractClient() {
 
                 <label className="block">
                   <span className="mb-2 block text-xs font-semibold uppercase tracking-wider text-[var(--muted)]">
-                    Licence Number (optional)
+                    Licence Number
                   </span>
                   <input
                     className="formInput"
@@ -485,13 +536,14 @@ export default function ContractClient() {
                     onChange={(e) =>
                       updateField("renterLicense", e.target.value)
                     }
+                    required
                   />
                 </label>
 
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div>
                     <span className="mb-2 block text-xs font-semibold uppercase tracking-wider text-[var(--muted)]">
-                      Licence Front (optional)
+                      Licence Front
                     </span>
                     <input
                       type="file"
@@ -499,6 +551,7 @@ export default function ContractClient() {
                       capture="environment"
                       onChange={(e) => handlePhotoChange(e, "front")}
                       className="formInput"
+                      required
                     />
                     {licenceFrontUrl ? (
                       <img
@@ -511,7 +564,7 @@ export default function ContractClient() {
 
                   <div>
                     <span className="mb-2 block text-xs font-semibold uppercase tracking-wider text-[var(--muted)]">
-                      Licence Back (optional)
+                      Licence Back
                     </span>
                     <input
                       type="file"
@@ -519,6 +572,7 @@ export default function ContractClient() {
                       capture="environment"
                       onChange={(e) => handlePhotoChange(e, "back")}
                       className="formInput"
+                      required
                     />
                     {licenceBackUrl ? (
                       <img
@@ -669,7 +723,7 @@ export default function ContractClient() {
 
                 <label className="block">
                   <span className="mb-2 block text-xs font-semibold uppercase tracking-wider text-[var(--muted)]">
-                    If long-term, rent due weekly on (optional)
+                    Rent Due Weekly On
                   </span>
                   <select
                     className="formInput"
@@ -677,8 +731,12 @@ export default function ContractClient() {
                     onChange={(e) =>
                       updateField("rentDueDay", e.target.value)
                     }
+                    required
                   >
-                    <option value="">Not applicable</option>
+                    <option value="" disabled>
+                      Select a day
+                    </option>
+                    <option>Not applicable</option>
                     {WEEKDAYS.map((d) => (
                       <option key={d}>{d}</option>
                     ))}
@@ -707,11 +765,11 @@ export default function ContractClient() {
                     </span>
                     <input
                       className="formInput"
-                      placeholder="Optional"
                       value={form.bondAmount}
                       onChange={(e) =>
                         updateField("bondAmount", e.target.value)
                       }
+                      required
                     />
                   </label>
 
@@ -721,18 +779,18 @@ export default function ContractClient() {
                     </span>
                     <input
                       className="formInput"
-                      placeholder="Optional"
                       value={form.insuranceExcess}
                       onChange={(e) =>
                         updateField("insuranceExcess", e.target.value)
                       }
+                      required
                     />
                   </label>
                 </div>
 
                 <label className="block">
                   <span className="mb-2 block text-xs font-semibold uppercase tracking-wider text-[var(--muted)]">
-                    Pickup Odometer (optional)
+                    Pickup Odometer
                   </span>
                   <input
                     className="formInput"
@@ -741,18 +799,20 @@ export default function ContractClient() {
                     onChange={(e) =>
                       updateField("pickupOdometer", e.target.value)
                     }
+                    required
                   />
                 </label>
 
                 <label className="block">
                   <span className="mb-2 block text-xs font-semibold uppercase tracking-wider text-[var(--muted)]">
-                    Notes (optional)
+                    Notes
                   </span>
                   <textarea
                     rows={3}
                     className="formInput resize-none"
                     value={form.notes}
                     onChange={(e) => updateField("notes", e.target.value)}
+                    required
                   />
                 </label>
               </div>
@@ -770,17 +830,12 @@ export default function ContractClient() {
                     <div className="text-xs font-semibold uppercase tracking-wider text-[var(--ink)] mb-1.5">
                       {section.heading}
                     </div>
-                    {section.body.map((p) => (
-                      <p key={p} className="mb-1.5 last:mb-0">
-                        {p}
-                      </p>
-                    ))}
+                    {section.body.map((line, i) =>
+                      renderBodyLine(line, `${section.heading}-${i}`)
+                    )}
                   </div>
                 ))}
               </div>
-              <p className="mt-2 text-xs text-[var(--muted-2)]">
-                {CONTRACT_TERMS_NOTE}
-              </p>
 
               <label className="mt-4 flex items-start gap-3">
                 <input
@@ -800,6 +855,10 @@ export default function ContractClient() {
             {/* SIGNATURES */}
             <div className="hairline pt-8">
               <div className="eyebrow mb-4">Signatures</div>
+
+              <p className="termsImportant text-sm leading-relaxed mb-6">
+                {CONTRACT_ACKNOWLEDGMENT}
+              </p>
 
               <div className="space-y-6">
                 <div>

@@ -574,8 +574,6 @@ select.formInput {
 }
 
 .termsBox {
-  max-height: 220px;
-  overflow-y: auto;
   border: 1px solid var(--hairline);
   border-radius: 12px;
   padding: 16px 18px;
@@ -591,6 +589,31 @@ select.formInput {
 
 .termsBox li:last-child {
   margin-bottom: 0;
+}
+
+.termsImportant {
+  color: #c0392b;
+  font-weight: 600;
+}
+
+.contractLight {
+  --bg: #ffffff;
+  --bg-soft: #ffffff;
+  --ink: #17181a;
+  --muted: #45484d;
+  --muted-2: #6b6e73;
+  --hairline: rgba(0, 0, 0, 0.14);
+  --hairline-strong: rgba(0, 0, 0, 0.26);
+  background: #ffffff;
+  color: #17181a;
+}
+
+.contractLight .termsImportant {
+  color: #b3261e;
+}
+
+.contractLight .fieldError {
+  color: #b3261e;
 }
 
 .formInput.hasError {
