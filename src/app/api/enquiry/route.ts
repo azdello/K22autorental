@@ -1,4 +1,4 @@
-﻿import { NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { Resend } from "resend";
 
 export const runtime = "nodejs"; // important for email sending
@@ -46,7 +46,7 @@ export async function POST(req: Request) {
       );
     }
 
-    const subject = `New Booking Enquiry — ${vehicleType}`;
+    const subject = `New Booking Enquiry - ${vehicleType}`;
 
     const text = [
       "New K22 Auto Rentals booking enquiry",

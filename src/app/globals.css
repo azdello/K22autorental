@@ -1,8 +1,8 @@
-﻿@import "tailwindcss";
 @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap");
+@import "tailwindcss";
 
 /* =========================
-   K22 Auto Rentals — Route theme
+   K22 Auto Rentals - Route theme
    Dark, spacious, one signal accent, motion-led
    ========================= */
 
@@ -270,7 +270,7 @@ body {
 }
 
 /* =========================
-   Reason rows — ghost numerals, no cards
+   Reason rows - ghost numerals, no cards
    ========================= */
 
 .reasonRow {
@@ -437,7 +437,7 @@ body {
 }
 
 /* =========================
-   Fleet list — flowing rows, not a boxed board
+   Fleet list - flowing rows, not a boxed board
    ========================= */
 
 .fleetList {
@@ -562,6 +562,35 @@ select.formInput {
   background-repeat: no-repeat;
   background-position: right 14px center;
   padding-right: 32px;
+}
+
+.sigCanvas {
+  width: 100%;
+  height: 160px;
+  background: var(--bg);
+  border: 1px solid var(--hairline);
+  border-radius: 12px;
+  cursor: crosshair;
+}
+
+.termsBox {
+  max-height: 220px;
+  overflow-y: auto;
+  border: 1px solid var(--hairline);
+  border-radius: 12px;
+  padding: 16px 18px;
+  background: var(--bg);
+}
+
+.termsBox li {
+  margin-bottom: 10px;
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.termsBox li:last-child {
+  margin-bottom: 0;
 }
 
 .formInput.hasError {

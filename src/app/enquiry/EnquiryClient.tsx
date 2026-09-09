@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useMemo, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
@@ -117,8 +117,8 @@ export default function EnquiryClient() {
       <h1 className="display mt-4 text-3xl sm:text-5xl">Send it through</h1>
       <p className="lead mt-4 max-w-md">
         Enter your details and preferred dates. We&rsquo;ll confirm
-        availability fast — or call{" "}
-        
+        availability fast - or call{" "}
+        <a
           href="tel:0430277558"
           className="text-[var(--signal)] hover:underline"
         >
@@ -235,7 +235,7 @@ export default function EnquiryClient() {
                 {status === "sending" ? (
                   <>
                     <span className="spinner" aria-hidden="true" />
-                    Submitting…
+                    Submitting...
                   </>
                 ) : (
                   "Submit enquiry"
