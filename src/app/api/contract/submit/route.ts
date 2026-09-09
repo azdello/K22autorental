@@ -91,8 +91,6 @@ export async function POST(req: Request) {
     const rentalRate = String(body.rentalRate ?? "").trim();
     const bondAmount = String(body.bondAmount ?? "").trim();
     const insuranceExcess = String(body.insuranceExcess ?? "").trim();
-    const pickupOdometer = String(body.pickupOdometer ?? "").trim();
-    const notes = String(body.notes ?? "").trim();
     const staffName = String(body.staffName ?? "").trim();
     const agreeTerms = Boolean(body.agreeTerms);
     const signatureDataUrl = String(body.signatureDataUrl ?? "");
@@ -117,8 +115,6 @@ export async function POST(req: Request) {
       !rentalRate ||
       !bondAmount ||
       !insuranceExcess ||
-      !pickupOdometer ||
-      !notes ||
       !staffName ||
       !agreeTerms ||
       !signatureDataUrl.startsWith("data:image/png;base64,") ||
@@ -152,7 +148,7 @@ export async function POST(req: Request) {
 
     const termsSectionsHtml = CONTRACT_TERMS_SECTIONS.map(
       (section) => `
-        <h4 style="margin-bottom:4px">${escapeHtml(section.heading)}</h4>
+        <h4 style="margin:16px 0 6px;font-size:17px;font-weight:700">${escapeHtml(section.heading)}</h4>
         ${section.body.map(bodyLineHtml).join("")}
       `
     ).join("");
@@ -186,8 +182,6 @@ export async function POST(req: Request) {
         <tr><td><b>Rental Rate</b></td><td>${escapeHtml(rentalRate)}</td></tr>
         <tr><td><b>Bond Amount</b></td><td>${escapeHtml(bondAmount)}</td></tr>
         <tr><td><b>Insurance Excess</b></td><td>${escapeHtml(insuranceExcess)}</td></tr>
-        <tr><td><b>Pickup Odometer</b></td><td>${escapeHtml(pickupOdometer)}</td></tr>
-        <tr><td><b>Notes</b></td><td>${escapeHtml(notes)}</td></tr>
       </table>
     `;
 
@@ -198,7 +192,7 @@ export async function POST(req: Request) {
         ${detailsHtml}
         <h3 style="margin-top:20px">Terms</h3>
         ${termsSectionsHtml}
-        <p style="margin-top:16px;color:#b3261e;font-weight:600">${escapeHtml(CONTRACT_ACKNOWLEDGMENT)}</p>
+        <p style="margin-top:16px;color:#b3261e;font-weight:600">${CONTRACT_ACKNOWLEDGMENT.map(escapeHtml).join("</p><p style=\"margin-top:8px;color:#b3261e;font-weight:600\">")}</p>
         <h3 style="margin-top:20px">Signatures</h3>
         <p style="margin-bottom:4px"><b>Renter Signature</b> (${escapeHtml(renterName)})</p>
         <img src="${signatureDataUrl}" alt="Renter signature" style="max-width:320px;border:1px solid #ddd;padding:8px;background:#fff" />
@@ -234,12 +228,10 @@ export async function POST(req: Request) {
       `Rental Rate: ${rentalRate}`,
       `Bond Amount: ${bondAmount}`,
       `Insurance Excess: ${insuranceExcess}`,
-      `Pickup Odometer: ${pickupOdometer}`,
-      `Notes: ${notes}`,
       "",
       "TERMS",
       ...termsTextLines,
-      bodyLineText(`IMPORTANT: ${CONTRACT_ACKNOWLEDGMENT}`),
+      ...CONTRACT_ACKNOWLEDGMENT.map((line) => bodyLineText(`IMPORTANT: ${line}`)),
       "",
       "SIGNATURES",
       `Renter Signature: ${renterName} (image attached / embedded in HTML email)`,

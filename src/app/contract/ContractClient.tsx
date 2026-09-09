@@ -127,8 +127,6 @@ const emptyForm = {
   rentalRate: "",
   bondAmount: "",
   insuranceExcess: "",
-  pickupOdometer: "",
-  notes: "",
   staffName: "",
   agreeTerms: false,
 };
@@ -148,8 +146,6 @@ const REQUIRED_TEXT_FIELDS: { key: keyof typeof emptyForm; label: string }[] = [
   { key: "rentalRate", label: "Rental rate" },
   { key: "bondAmount", label: "Bond amount" },
   { key: "insuranceExcess", label: "Insurance excess" },
-  { key: "pickupOdometer", label: "Pickup odometer" },
-  { key: "notes", label: "Notes" },
   { key: "staffName", label: "Rental provider representative name" },
 ];
 
@@ -787,34 +783,6 @@ export default function ContractClient() {
                     />
                   </label>
                 </div>
-
-                <label className="block">
-                  <span className="mb-2 block text-xs font-semibold uppercase tracking-wider text-[var(--muted)]">
-                    Pickup Odometer
-                  </span>
-                  <input
-                    className="formInput"
-                    placeholder="e.g. 84213 km"
-                    value={form.pickupOdometer}
-                    onChange={(e) =>
-                      updateField("pickupOdometer", e.target.value)
-                    }
-                    required
-                  />
-                </label>
-
-                <label className="block">
-                  <span className="mb-2 block text-xs font-semibold uppercase tracking-wider text-[var(--muted)]">
-                    Notes
-                  </span>
-                  <textarea
-                    rows={3}
-                    className="formInput resize-none"
-                    value={form.notes}
-                    onChange={(e) => updateField("notes", e.target.value)}
-                    required
-                  />
-                </label>
               </div>
             </div>
 
@@ -827,7 +795,7 @@ export default function ContractClient() {
               <div className="termsBox">
                 {CONTRACT_TERMS_SECTIONS.map((section) => (
                   <div key={section.heading} className="mb-4 last:mb-0">
-                    <div className="text-xs font-semibold uppercase tracking-wider text-[var(--ink)] mb-1.5">
+                    <div className="text-base sm:text-lg font-bold text-[var(--ink)] mb-2">
                       {section.heading}
                     </div>
                     {section.body.map((line, i) =>
@@ -856,9 +824,14 @@ export default function ContractClient() {
             <div className="hairline pt-8">
               <div className="eyebrow mb-4">Signatures</div>
 
-              <p className="termsImportant text-sm leading-relaxed mb-6">
-                {CONTRACT_ACKNOWLEDGMENT}
-              </p>
+              {CONTRACT_ACKNOWLEDGMENT.map((line, i) => (
+                <p
+                  key={i}
+                  className="termsImportant text-sm leading-relaxed mb-3 last:mb-6"
+                >
+                  {line}
+                </p>
+              ))}
 
               <div className="space-y-6">
                 <div>
