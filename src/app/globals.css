@@ -1,4 +1,4 @@
-@import "tailwindcss";
+﻿@import "tailwindcss";
 @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap");
 
 /* =========================
@@ -562,4 +562,103 @@ select.formInput {
   background-repeat: no-repeat;
   background-position: right 14px center;
   padding-right: 32px;
+}
+
+.formInput.hasError {
+  border-color: #ff6b6b;
+}
+
+.fieldError {
+  margin-top: 7px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #ff8585;
+  animation: fieldErrorIn 260ms var(--ease);
+}
+
+@keyframes fieldErrorIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.shakeOnError {
+  animation: shakeX 420ms var(--ease);
+}
+
+@keyframes shakeX {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-8px);
+  }
+  40% {
+    transform: translateX(7px);
+  }
+  60% {
+    transform: translateX(-5px);
+  }
+  80% {
+    transform: translateX(3px);
+  }
+}
+
+.spinner {
+  width: 15px;
+  height: 15px;
+  border-radius: 999px;
+  border: 2px solid rgba(36, 20, 0, 0.3);
+  border-top-color: var(--signal-ink);
+  animation: spin 700ms linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.successCheck circle {
+  stroke-dasharray: 145;
+  stroke-dashoffset: 145;
+  animation: checkCircle 600ms var(--ease) forwards;
+}
+
+.successCheck path {
+  stroke-dasharray: 30;
+  stroke-dashoffset: 30;
+  animation: checkMark 400ms var(--ease) 500ms forwards;
+}
+
+@keyframes checkCircle {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes checkMark {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fieldError,
+  .shakeOnError,
+  .spinner,
+  .successCheck circle,
+  .successCheck path {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
 }

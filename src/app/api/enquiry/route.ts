@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+﻿import { NextResponse } from "next/server";
 import { Resend } from "resend";
 
 export const runtime = "nodejs"; // important for email sending
@@ -28,6 +28,20 @@ export async function POST(req: Request) {
     if (!name || !phone || !vehicleType || !startDate || !endDate) {
       return NextResponse.json(
         { ok: false, error: "Missing required fields." },
+        { status: 400 }
+      );
+    }
+
+    const todayISO = new Date().toISOString().slice(0, 10);
+    if (startDate < todayISO) {
+      return NextResponse.json(
+        { ok: false, error: "Start date can't be in the past." },
+        { status: 400 }
+      );
+    }
+    if (endDate < startDate) {
+      return NextResponse.json(
+        { ok: false, error: "End date can't be before the start date." },
         { status: 400 }
       );
     }

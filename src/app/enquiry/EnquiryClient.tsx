@@ -1,19 +1,73 @@
-"use client";
+﻿"use client";
 
 import { useMemo, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
+import Reveal from "../components/Reveal";
+
+function toISODate(d: Date) {
+  return d.toISOString().slice(0, 10);
+}
+
+type DateErrors = { startDate?: string; endDate?: string };
+
+function validateDates(
+  startDate: string,
+  endDate: string,
+  todayISO: string
+): DateErrors {
+  const errors: DateErrors = {};
+
+  if (startDate && startDate < todayISO) {
+    errors.startDate = "Start date can't be in the past.";
+  }
+
+  if (endDate) {
+    if (startDate && endDate < startDate) {
+      errors.endDate = "End date can't be before the start date.";
+    } else if (endDate < todayISO) {
+      errors.endDate = "End date can't be in the past.";
+    }
+  }
+
+  return errors;
+}
 
 export default function EnquiryClient() {
   const params = useSearchParams();
   const router = useRouter();
 
   const prefillType = useMemo(() => params.get("type") ?? "", [params]);
+  const todayISO = useMemo(() => toISODate(new Date()), []);
+
+  const [dates, setDates] = useState({ startDate: "", endDate: "" });
+  const [dateErrors, setDateErrors] = useState<DateErrors>({});
+  const [shake, setShake] = useState(false);
 
   const [status, setStatus] = useState<"idle" | "sending" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState<string>("");
 
+  function handleDateChange(field: "startDate" | "endDate", value: string) {
+    const next = { ...dates, [field]: value };
+    setDates(next);
+    setDateErrors(validateDates(next.startDate, next.endDate, todayISO));
+  }
+
+  function triggerShake() {
+    setShake(true);
+    window.setTimeout(() => setShake(false), 450);
+  }
+
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+
+    const errors = validateDates(dates.startDate, dates.endDate, todayISO);
+    setDateErrors(errors);
+
+    if (errors.startDate || errors.endDate) {
+      triggerShake();
+      return;
+    }
+
     setStatus("sending");
     setErrorMsg("");
 
@@ -25,8 +79,8 @@ export default function EnquiryClient() {
       phone: String(formData.get("phone") || "").trim(),
       email: String(formData.get("email") || "").trim(),
       vehicleType: String(formData.get("vehicleType") || "").trim(),
-      startDate: String(formData.get("startDate") || "").trim(),
-      endDate: String(formData.get("endDate") || "").trim(),
+      startDate: dates.startDate,
+      endDate: dates.endDate,
       notes: String(formData.get("notes") || "").trim(),
     };
 
@@ -42,6 +96,7 @@ export default function EnquiryClient() {
       if (!res.ok || !data?.ok) {
         setStatus("error");
         setErrorMsg(data?.error || "Something went wrong. Please try again.");
+        triggerShake();
         return;
       }
 
@@ -50,6 +105,7 @@ export default function EnquiryClient() {
     } catch {
       setStatus("error");
       setErrorMsg("Network error. Please try again.");
+      triggerShake();
     } finally {
       if (status !== "error") setStatus("idle");
     }
@@ -62,7 +118,7 @@ export default function EnquiryClient() {
       <p className="lead mt-4 max-w-md">
         Enter your details and preferred dates. We&rsquo;ll confirm
         availability fast — or call{" "}
-        <a
+        
           href="tel:0430277558"
           className="text-[var(--signal)] hover:underline"
         >
@@ -73,9 +129,9 @@ export default function EnquiryClient() {
 
       <section className="mt-10 grid gap-6 lg:grid-cols-5">
         {/* FORM */}
-        <div className="lg:col-span-3">
-          <div className="panel p-6 sm:p-8">
-            <form className="space-y-5" onSubmit={onSubmit}>
+        <Reveal as="div" className="lg:col-span-3">
+          <div className={`panel p-6 sm:p-8 ${shake ? "shakeOnError" : ""}`}>
+            <form className="space-y-5" onSubmit={onSubmit} noValidate>
               <div className="grid gap-4 sm:grid-cols-2">
                 <Field label="Full Name">
                   <input
@@ -127,20 +183,36 @@ export default function EnquiryClient() {
               </div>
 
               <div className="grid gap-4 sm:grid-cols-2">
-                <Field label="Start Date">
+                <Field label="Start Date" error={dateErrors.startDate}>
                   <input
                     type="date"
                     name="startDate"
-                    className="formInput"
+                    min={todayISO}
+                    value={dates.startDate}
+                    onChange={(e) =>
+                      handleDateChange("startDate", e.target.value)
+                    }
+                    className={`formInput ${
+                      dateErrors.startDate ? "hasError" : ""
+                    }`}
+                    aria-invalid={Boolean(dateErrors.startDate)}
                     required
                   />
                 </Field>
 
-                <Field label="End Date">
+                <Field label="End Date" error={dateErrors.endDate}>
                   <input
                     type="date"
                     name="endDate"
-                    className="formInput"
+                    min={dates.startDate || todayISO}
+                    value={dates.endDate}
+                    onChange={(e) =>
+                      handleDateChange("endDate", e.target.value)
+                    }
+                    className={`formInput ${
+                      dateErrors.endDate ? "hasError" : ""
+                    }`}
+                    aria-invalid={Boolean(dateErrors.endDate)}
                     required
                   />
                 </Field>
@@ -160,11 +232,18 @@ export default function EnquiryClient() {
                 disabled={status === "sending"}
                 className="btnSignal w-full disabled:opacity-60"
               >
-                {status === "sending" ? "Submitting…" : "Submit enquiry"}
+                {status === "sending" ? (
+                  <>
+                    <span className="spinner" aria-hidden="true" />
+                    Submitting…
+                  </>
+                ) : (
+                  "Submit enquiry"
+                )}
               </button>
 
               {status === "error" ? (
-                <p className="text-sm font-semibold text-red-400">
+                <p className="fieldError text-sm font-semibold">
                   {errorMsg}
                 </p>
               ) : null}
@@ -175,10 +254,10 @@ export default function EnquiryClient() {
               </p>
             </form>
           </div>
-        </div>
+        </Reveal>
 
         {/* INFO / SIDEBAR */}
-        <div className="lg:col-span-2">
+        <Reveal as="div" className="lg:col-span-2">
           <div className="panel p-6 sm:p-8">
             <h2 className="display text-lg">What happens next</h2>
             <div className="mt-5 space-y-4">
@@ -210,7 +289,7 @@ export default function EnquiryClient() {
               </p>
             </div>
           </div>
-        </div>
+        </Reveal>
       </section>
     </div>
   );
@@ -219,9 +298,11 @@ export default function EnquiryClient() {
 function Field({
   label,
   children,
+  error,
 }: {
   label: string;
   children: React.ReactNode;
+  error?: string;
 }) {
   return (
     <label className="block">
@@ -229,6 +310,11 @@ function Field({
         {label}
       </span>
       {children}
+      {error ? (
+        <span className="fieldError" role="alert">
+          {error}
+        </span>
+      ) : null}
     </label>
   );
 }

@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -16,6 +16,30 @@ export default async function EnquiryConfirmationPage({
 
   return (
     <div>
+      <svg
+        className="successCheck mb-6"
+        width="52"
+        height="52"
+        viewBox="0 0 52 52"
+        fill="none"
+        aria-hidden="true"
+      >
+        <circle
+          cx="26"
+          cy="26"
+          r="23"
+          stroke="var(--signal)"
+          strokeWidth="2.5"
+        />
+        <path
+          d="M16 27l7 7 13-15"
+          stroke="var(--signal)"
+          strokeWidth="2.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+
       <span className="eyebrow">Confirmed</span>
       <h1 className="display mt-4 text-3xl sm:text-5xl">Enquiry sent</h1>
       <p className="lead mt-4 max-w-md">
